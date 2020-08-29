@@ -16,3 +16,8 @@ canvas {
   width: 100% !important;
   height: 90vh !important;
 }
+
+.animation-item:hover {
+  background-color: #304ffe !important;
+  cursor: pointer;
+}

@@ -1,6 +1,5 @@
 import React, { useRef, useEffect, useContext } from "react";
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import setCamera from "../helpers/setCamera";
 import setControls from "../helpers/setControls";
 import setLights from "../helpers/setLights";
@@ -30,7 +29,31 @@ const ModelViewer = ({ model }) => {
     if (current.children.length) current.removeChild(current.lastChild);
     current.appendChild(renderer.domElement);
 
+    // ground
+    var mesh = new THREE.Mesh(
+      new THREE.PlaneBufferGeometry(2000, 2000),
+      new THREE.MeshPhongMaterial({ color: 0x999999, depthWrite: false })
+    );
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.receiveShadow = true;
+    mesh.position.y = -80;
+    scene.add(mesh);
+
+    var grid = new THREE.GridHelper(2000, 20, 0x000000, 0x000000);
+    grid.material.opacity = 0.2;
+    grid.material.transparent = true;
+    grid.position.y = -80;
+    scene.add(grid);
+
+    scene.fog = new THREE.Fog(0xa0a0a0, 200, 1000);
+
     loadFBX(model, (object) => {
+      object.animations.forEach((anim) => {
+        if (anim.name == "Take 001") {
+          anim.name = "T-Pose (No Animation)";
+        }
+      });
+
       scene.add(object);
       // Add main model in reducer
       addMainModel(object);
@@ -45,7 +68,7 @@ const ModelViewer = ({ model }) => {
     setControls(camera, current);
     setLights(scene);
     scene.background = new THREE.Color(0xa0a0a0);
-
+    renderer.shadowMap.enabled = true;
     renderer.render(scene, camera);
 
     //=================================================>

@@ -24,6 +24,19 @@ const Home = () => {
       Array.from(event.target.files).forEach((element) => {
         let fileUrl = URL.createObjectURL(element);
         loadFBX(fileUrl, (object) => {
+          let fileName = element.name.split(".")[0].replace(/\s/g, "");
+          fileName = fileName.charAt(0).toUpperCase() + fileName.slice(1);
+          if (object.animations.length > 1) {
+            object.animations.forEach((anim, index) => {
+              anim.name = fileName + index;
+            });
+          } else {
+            if (object.animations[0].name === "Take 001") {
+              object.animations[0].name = "T-Pose (No Animation)";
+            } else {
+              object.animations[0].name = fileName;
+            }
+          }
           addAnimations(object.animations);
         });
       });
@@ -32,7 +45,7 @@ const Home = () => {
 
   return (
     <Layout>
-      <div className="row">
+      <div className="row" style={{ height: "91vh" }}>
         <div className="col m3">
           <UploadSection
             onMainModelUpload={onMainModelUpload}

@@ -15,9 +15,18 @@ const modelReducer = (state, action) => {
     case "add_animations":
       return { ...state, animations: [...state.animations, ...action.payload] };
     case "change_animation_name":
-      return;
+      return state.animations.map((anim) =>
+        anim.uuid === action.payload.uuid ? action.payload : anim
+      );
     case "add_mixer":
       return { ...state, mixer: action.payload };
+    case "delete_animation":
+      return {
+        ...state,
+        animations: state.animations.filter(
+          (animation) => animation.uuid !== action.payload
+        ),
+      };
     default:
       return state;
   }
@@ -39,8 +48,13 @@ const addAnimations = (dispatch) => (animations) => {
   dispatch({ type: "add_animations", payload: animations });
 };
 
-const changeName = (dispatch) => (animationName) => {
-  dispatch({ type: "change_animation_name", payload: animationName });
+const changeName = (dispatch) => (animation) => {
+  dispatch({ type: "change_animation_name", payload: animation });
+};
+
+const deleteAnimation = (dispatch) => (animationId) => {
+  dispatch({ type: "delete_animation", payload: animationId });
+  console.log(animationId);
 };
 
 export const { Provider, Context } = createDataContext(
@@ -51,6 +65,7 @@ export const { Provider, Context } = createDataContext(
     addAnimations,
     changeName,
     addMixer,
+    deleteAnimation,
   },
   initialState
 );
