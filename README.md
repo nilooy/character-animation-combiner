@@ -1,10 +1,16 @@
-# Mixamo Character Animation Combiner
+# ⛹⛹⛹ Mixamo Character Animation Combiner ⛹⛹⛹
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+## [LIVE HERE 💎](https://nilooy.github.io/mixamo-animation-combiner/)
 
-In the project directory, you can run:
+## Run Locally
+
+```bash
+npm install
+
+npm start
+```
 
 ### `npm start`
 
