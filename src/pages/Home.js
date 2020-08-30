@@ -7,9 +7,10 @@ import loadModel from "../helpers/loadModel";
 import { Context as ModalContext } from "../context/ModelContext";
 import Export from "../components/Export";
 import Preloader from "../components/Preloader";
+import DefaultGLB from "../assets/model3d/default.glb";
 
 const Home = () => {
-  const [model, setModel] = useState("mixamo-animation-combiner/default.gltf");
+  const [model, setModel] = useState(DefaultGLB);
   const [fileExt, setFileExt] = useState("gltf");
   const {
     state: { loading },

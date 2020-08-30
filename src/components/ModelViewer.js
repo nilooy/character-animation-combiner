@@ -60,11 +60,12 @@ const ModelViewer = ({ model, fileExt }) => {
         }
       });
 
-      if (fileExt === "fbx") scene.add(object);
-      else scene.add(object.scene);
+      let mainModel = fileExt === "fbx" ? object : object.scene;
+
+      scene.add(mainModel);
 
       // Add main model in reducer
-      addMainModel(object);
+      addMainModel(mainModel);
       // add animation if there any
       if (object.animations.length)
         addAnimationFromMainModel(object.animations);
