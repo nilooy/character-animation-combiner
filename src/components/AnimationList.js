@@ -23,7 +23,7 @@ const AnimationList = () => {
   useEffect(() => {
     setTimeout(() => {
       document.querySelectorAll(".collection-item")[2].click();
-    }, 4000);
+    }, 10000);
   }, []);
 
   const playAnimation = (animation) => {
