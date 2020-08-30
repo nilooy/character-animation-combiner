@@ -19,7 +19,7 @@
     "react-three-fiber": "^4.2.20",
     "three": "^0.120.0"
   },
-  "homepage": "mixamocomb",
+  "homepage": "mixamo-animation-combiner",
   "scripts": {
     "predeploy": "yarn run build",
     "deploy": "gh-pages -d build",
