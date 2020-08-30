@@ -5,6 +5,7 @@ import { Context as ModalContext } from "../context/ModelContext";
 const Export = () => {
   const {
     state: { mainModel, animations },
+    toggleLoading,
   } = useContext(ModalContext);
 
   const save = (blob, filename) => {
@@ -14,6 +15,7 @@ const Export = () => {
     link.href = URL.createObjectURL(blob);
     link.download = filename;
     link.click();
+    toggleLoading();
 
     // URL.revokeObjectURL( url ); breaks Firefox...
   };
@@ -26,33 +28,56 @@ const Export = () => {
     save(new Blob([buffer], { type: "application/octet-stream" }), filename);
   };
 
-  const exportFile = () => {
+  const exportGLB = () => {
+    toggleLoading();
     var exporter = new GLTFExporter();
 
     // Parse the input and generate the glTF output
     exporter.parse(
       mainModel,
       function (result) {
-        // result.animations = fly.animations;
-        // var output = JSON.stringify(result, null, 2);
-        // saveString(output, "scene.gltf");
-        // console.log(result);
-
         saveArrayBuffer(result, `mixamo-${new Date().getTime()}.glb`);
       },
       { trs: true, binary: true, animations: animations }
     );
   };
 
+  const exportGLTF = () => {
+    toggleLoading();
+    var exporter = new GLTFExporter();
+
+    // Parse the input and generate the glTF output
+    exporter.parse(
+      mainModel,
+      function (result) {
+        var output = JSON.stringify(result, null, 2);
+        saveString(output, `mixamo-${new Date().getTime()}.gltf`);
+      },
+      { trs: true, binary: false, animations: animations }
+    );
+  };
+
   return (
-    <div className="valign-wrapper" style={{ height: 100 }}>
-      <button
-        style={{ margin: "0 auto" }}
-        className="waves-effect waves-light btn-large indigo accent-4"
-        onClick={exportFile}
-      >
-        Export GLTF/GLB
-      </button>
+    <div style={{ height: 100 }}>
+      <h4 className="white-text">Export</h4>
+
+      <div className="row">
+        <button
+          style={{ margin: "0 auto" }}
+          className="waves-effect waves-light btn-large indigo accent-4 col m12 l6"
+          onClick={exportGLTF}
+        >
+          Export GLTF
+        </button>
+
+        <button
+          style={{ margin: "0 auto" }}
+          className="waves-effect waves-light btn-large indigo accent-4 col m12 l6"
+          onClick={exportGLB}
+        >
+          Export GLB
+        </button>
+      </div>
     </div>
   );
 };

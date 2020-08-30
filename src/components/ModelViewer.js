@@ -1,18 +1,21 @@
 import React, { useRef, useEffect, useContext } from "react";
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
+import { RoughnessMipmapper } from "three/examples/jsm/utils/RoughnessMipmapper";
 import setCamera from "../helpers/setCamera";
 import setControls from "../helpers/setControls";
 import setLights from "../helpers/setLights";
 import resizeWindow from "../helpers/resizeWindow";
-import loadFBX from "../helpers/loadFBX";
+import loadModel from "../helpers/loadModel";
 import { Context as ModalContext } from "../context/ModelContext";
 
-const ModelViewer = ({ model }) => {
+const ModelViewer = ({ model, fileExt }) => {
   const viewer = useRef(null);
-  const { addMainModel, addAnimationFromMainModel, addMixer } = useContext(
-    ModalContext
-  );
+  const {
+    addMainModel,
+    addAnimationFromMainModel,
+    addMixer,
+    toggleLoading,
+  } = useContext(ModalContext);
 
   useEffect(() => {
     if (!model) return;
@@ -30,22 +33,60 @@ const ModelViewer = ({ model }) => {
     if (current.children.length) current.removeChild(current.lastChild);
     current.appendChild(renderer.domElement);
 
-    loadFBX(model, (object) => {
-      scene.add(object);
+    // ground
+    var mesh = new THREE.Mesh(
+      new THREE.PlaneBufferGeometry(2000, 2000),
+      new THREE.MeshPhongMaterial({ color: 0x999999, depthWrite: false })
+    );
+    mesh.rotation.x = -Math.PI / 2;
+    mesh.receiveShadow = true;
+    mesh.position.y = -80;
+    scene.add(mesh);
+
+    var grid = new THREE.GridHelper(2000, 20, 0x000000, 0x000000);
+    grid.material.opacity = 0.2;
+    grid.material.transparent = true;
+    grid.position.y = -80;
+    scene.add(grid);
+
+    scene.fog = new THREE.Fog(0xa0a0a0, 200, 1000);
+    var roughnessMipmapper = new RoughnessMipmapper(renderer);
+    toggleLoading();
+    loadModel(model, fileExt, (object) => {
+      toggleLoading();
+      object.animations.forEach((anim) => {
+        if (anim.name === "Take 001") {
+          anim.name = "T-Pose (No Animation)";
+        }
+      });
+
+      if (fileExt === "fbx") scene.add(object);
+      else scene.add(object.scene);
+
       // Add main model in reducer
       addMainModel(object);
       // add animation if there any
       if (object.animations.length)
         addAnimationFromMainModel(object.animations);
 
-      mixer = new THREE.AnimationMixer(object);
+      mixer = new THREE.AnimationMixer(
+        fileExt === "fbx" ? object : object.scene
+      );
       addMixer(mixer);
+      roughnessMipmapper.dispose();
     });
+
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1;
+    renderer.outputEncoding = THREE.sRGBEncoding;
+
+    var pmremGenerator = new THREE.PMREMGenerator(renderer);
+    pmremGenerator.compileEquirectangularShader();
 
     setControls(camera, current);
     setLights(scene);
     scene.background = new THREE.Color(0xa0a0a0);
-
+    renderer.shadowMap.enabled = true;
     renderer.render(scene, camera);
 
     //=================================================>
@@ -65,6 +106,8 @@ const ModelViewer = ({ model }) => {
       renderer.render(scene, camera);
     };
     animate();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [model]);
 
   return <div style={{ height: "90vh" }} ref={viewer}></div>;
