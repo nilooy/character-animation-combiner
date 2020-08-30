@@ -2,10 +2,16 @@
   "name": "react-mixamo",
   "version": "0.1.0",
   "private": true,
+  "author": {
+    "name": "Rezwan Ferdous Niloy",
+    "email": "mdrezwanferdous@gmail.com",
+    "url": "https://nilooy.dev"
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
+    "gh-pages": "^3.1.0",
     "materialize-css": "^1.0.0-rc.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -13,7 +19,10 @@
     "react-three-fiber": "^4.2.20",
     "three": "^0.120.0"
   },
+  "homepage": "mixamocomb",
   "scripts": {
+    "predeploy": "yarn run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
