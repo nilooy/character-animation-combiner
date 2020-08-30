@@ -1,4 +1,5 @@
 import React from "react";
+import GithubImage from "../assets/img/github.png";
 
 const Layout = ({ children }) => {
   return (
@@ -16,7 +17,7 @@ const Layout = ({ children }) => {
                 href="https://github.com/nilooy/mixamo-animation-combiner"
                 target="_blank"
               >
-                <img src="github.png" alt="github logo" width="40" />
+                <img src={GithubImage} alt="github logo" width="40" />
               </a>
             </li>
           </ul>
