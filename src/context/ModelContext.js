@@ -4,6 +4,7 @@ const initialState = {
   mainModel: null,
   animations: [],
   mixer: null,
+  loading: false,
 };
 
 const modelReducer = (state, action) => {
@@ -30,6 +31,8 @@ const modelReducer = (state, action) => {
           (animation) => animation.uuid !== action.payload
         ),
       };
+    case "toogle_loading":
+      return { ...state, loading: !state.loading };
     default:
       return state;
   }
@@ -57,7 +60,10 @@ const changeName = (dispatch) => (animation) => {
 
 const deleteAnimation = (dispatch) => (animationId) => {
   dispatch({ type: "delete_animation", payload: animationId });
-  console.log(animationId);
+};
+
+const toggleLoading = (dispatch) => () => {
+  dispatch({ type: "toogle_loading" });
 };
 
 export const { Provider, Context } = createDataContext(
@@ -69,6 +75,7 @@ export const { Provider, Context } = createDataContext(
     changeName,
     addMixer,
     deleteAnimation,
+    toggleLoading,
   },
   initialState
 );

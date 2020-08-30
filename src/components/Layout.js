@@ -22,6 +22,7 @@ const Layout = ({ children }) => {
           </ul>
         </div>
       </nav>
+
       {children}
     </div>
   );

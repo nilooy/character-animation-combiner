@@ -8,7 +8,7 @@ export default (container) => {
     1000
   );
   // camera.position.set(100, 200, 400);
-  camera.position.z = 400;
+  camera.position.z = 300;
   camera.position.y = 50;
 
   return camera;

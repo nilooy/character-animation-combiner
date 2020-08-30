@@ -1,17 +1,21 @@
 import React, { useRef, useEffect, useContext } from "react";
 import * as THREE from "three";
+import { RoughnessMipmapper } from "three/examples/jsm/utils/RoughnessMipmapper";
 import setCamera from "../helpers/setCamera";
 import setControls from "../helpers/setControls";
 import setLights from "../helpers/setLights";
 import resizeWindow from "../helpers/resizeWindow";
-import loadFBX from "../helpers/loadFBX";
+import loadModel from "../helpers/loadModel";
 import { Context as ModalContext } from "../context/ModelContext";
 
-const ModelViewer = ({ model }) => {
+const ModelViewer = ({ model, fileExt }) => {
   const viewer = useRef(null);
-  const { addMainModel, addAnimationFromMainModel, addMixer } = useContext(
-    ModalContext
-  );
+  const {
+    addMainModel,
+    addAnimationFromMainModel,
+    addMixer,
+    toggleLoading,
+  } = useContext(ModalContext);
 
   useEffect(() => {
     if (!model) return;
@@ -46,24 +50,38 @@ const ModelViewer = ({ model }) => {
     scene.add(grid);
 
     scene.fog = new THREE.Fog(0xa0a0a0, 200, 1000);
-
-    loadFBX(model, (object) => {
+    var roughnessMipmapper = new RoughnessMipmapper(renderer);
+    toggleLoading();
+    loadModel(model, fileExt, (object) => {
+      toggleLoading();
       object.animations.forEach((anim) => {
-        if (anim.name == "Take 001") {
+        if (anim.name === "Take 001") {
           anim.name = "T-Pose (No Animation)";
         }
       });
 
-      scene.add(object);
+      if (fileExt === "fbx") scene.add(object);
+      else scene.add(object.scene);
+
       // Add main model in reducer
       addMainModel(object);
       // add animation if there any
       if (object.animations.length)
         addAnimationFromMainModel(object.animations);
 
-      mixer = new THREE.AnimationMixer(object);
+      mixer = new THREE.AnimationMixer(
+        fileExt === "fbx" ? object : object.scene
+      );
       addMixer(mixer);
+      roughnessMipmapper.dispose();
     });
+
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1;
+    renderer.outputEncoding = THREE.sRGBEncoding;
+
+    var pmremGenerator = new THREE.PMREMGenerator(renderer);
+    pmremGenerator.compileEquirectangularShader();
 
     setControls(camera, current);
     setLights(scene);
@@ -88,6 +106,8 @@ const ModelViewer = ({ model }) => {
       renderer.render(scene, camera);
     };
     animate();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [model]);
 
   return <div style={{ height: "90vh" }} ref={viewer}></div>;

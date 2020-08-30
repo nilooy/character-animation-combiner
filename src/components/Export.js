@@ -5,6 +5,7 @@ import { Context as ModalContext } from "../context/ModelContext";
 const Export = () => {
   const {
     state: { mainModel, animations },
+    toggleLoading,
   } = useContext(ModalContext);
 
   const save = (blob, filename) => {
@@ -14,6 +15,7 @@ const Export = () => {
     link.href = URL.createObjectURL(blob);
     link.download = filename;
     link.click();
+    toggleLoading();
 
     // URL.revokeObjectURL( url ); breaks Firefox...
   };
@@ -27,6 +29,7 @@ const Export = () => {
   };
 
   const exportGLB = () => {
+    toggleLoading();
     var exporter = new GLTFExporter();
 
     // Parse the input and generate the glTF output
@@ -40,6 +43,7 @@ const Export = () => {
   };
 
   const exportGLTF = () => {
+    toggleLoading();
     var exporter = new GLTFExporter();
 
     // Parse the input and generate the glTF output

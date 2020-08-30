@@ -3,7 +3,7 @@ import { Context as ModalContext } from "../context/ModelContext";
 
 const AnimationList = () => {
   const {
-    state: { animations, mixer },
+    state: { animations, mixer, loading },
     changeName,
     deleteAnimation,
   } = useContext(ModalContext);
@@ -20,11 +20,16 @@ const AnimationList = () => {
     }
   }, [action]);
 
+  useEffect(() => {
+    setTimeout(() => {
+      document.querySelectorAll(".collection-item")[2].click();
+    }, 4000);
+  }, []);
+
   const playAnimation = (animation) => {
     if (action) action.stop();
     setAction(mixer.clipAction(animation));
     setPlaying(animation.uuid);
-    console.log(action);
   };
 
   const changeAnimationName = (animation) => {
@@ -66,7 +71,7 @@ const AnimationList = () => {
           ) : (
             <li
               key={item.uuid}
-              className="collection-item grey darken-2 white-text animation-item"
+              className="collection-item grey darken-2 white-text animation-item row"
               onClick={() => playAnimation(item)}
               onDoubleClick={() => setEditingId(item.uuid)}
               style={{
@@ -76,9 +81,9 @@ const AnimationList = () => {
               {item.uuid === playing && (
                 <span className="left material-icons">play_arrow</span>
               )}
-              {item.name}
+              <span className="col">{item.name}</span>
               <span
-                className="left material-icons right red-text"
+                className="col left material-icons right red-text"
                 onClick={() => removeAnimation(item.uuid)}
               >
                 delete
