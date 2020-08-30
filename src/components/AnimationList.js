@@ -15,13 +15,6 @@ const AnimationList = () => {
   const [name, setName] = useState("");
 
   useEffect(() => {
-    window.addEventListener("click", (e) => {
-      if (e.target.name === "rename") return;
-      setEditingId(null);
-    });
-  }, []);
-
-  useEffect(() => {
     if (action) {
       action.play();
     }
@@ -66,6 +59,7 @@ const AnimationList = () => {
               onKeyDown={(e) =>
                 e.key === "Enter" ? changeAnimationName(item) : null
               }
+              onBlur={(e) => changeAnimationName(item)}
               defaultValue={item.name}
               autoFocus
             />

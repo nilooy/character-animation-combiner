@@ -15,9 +15,12 @@ const modelReducer = (state, action) => {
     case "add_animations":
       return { ...state, animations: [...state.animations, ...action.payload] };
     case "change_animation_name":
-      return state.animations.map((anim) =>
-        anim.uuid === action.payload.uuid ? action.payload : anim
-      );
+      return {
+        ...state,
+        animations: state.animations.map((anim) =>
+          anim.uuid === action.payload.uuid ? action.payload : anim
+        ),
+      };
     case "add_mixer":
       return { ...state, mixer: action.payload };
     case "delete_animation":
