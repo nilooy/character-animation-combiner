@@ -9,7 +9,7 @@ import Export from "../components/Export";
 import Preloader from "../components/Preloader";
 
 const Home = () => {
-  const [model, setModel] = useState("default.gltf");
+  const [model, setModel] = useState("mixamo-animation-combiner/default.gltf");
   const [fileExt, setFileExt] = useState("gltf");
   const {
     state: { loading },

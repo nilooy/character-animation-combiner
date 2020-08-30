@@ -16,7 +16,7 @@ const Layout = ({ children }) => {
                 href="https://github.com/nilooy/mixamo-animation-combiner"
                 target="_blank"
               >
-                <img src="/github.png" alt="github logo" width="40" />
+                <img src="github.png" alt="github logo" width="40" />
               </a>
             </li>
           </ul>

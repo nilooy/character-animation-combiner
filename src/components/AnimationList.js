@@ -21,9 +21,9 @@ const AnimationList = () => {
   }, [action]);
 
   useEffect(() => {
-    setTimeout(() => {
-      document.querySelectorAll(".collection-item")[2].click();
-    }, 10000);
+    // setTimeout(() => {
+    //   document.querySelectorAll(".collection-item")[2].click();
+    // }, 10000);
   }, []);
 
   const playAnimation = (animation) => {
