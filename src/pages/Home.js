@@ -3,11 +3,13 @@ import Layout from "../components/Layout";
 import UploadSection from "../components/UploadSection";
 import ModelViewer from "../components/ModelViewer";
 import AnimationList from "../components/AnimationList";
+import ChangeTexture from "../components/ChangeTexture";
 import loadModel from "../helpers/loadModel";
 import { Context as ModalContext } from "../context/ModelContext";
 import Export from "../components/Export";
 import Preloader from "../components/Preloader";
 import DefaultGLB from "../assets/model3d/default.glb";
+import Info from "../components/Info";
 
 const Home = () => {
   const [model, setModel] = useState(DefaultGLB);
@@ -22,8 +24,6 @@ const Home = () => {
       const file = event.target.files[0];
       let fileUrl = URL.createObjectURL(file);
       setFileExt(file.name.split(".").pop());
-
-      console.log(fileUrl);
 
       setModel(fileUrl);
     }
@@ -63,6 +63,8 @@ const Home = () => {
             onAnimationUpload={onAnimationUpload}
           />
           <Export />
+          <ChangeTexture />
+          <Info />
         </div>
         <div className="col m6">
           <ModelViewer model={model} fileExt={fileExt} />

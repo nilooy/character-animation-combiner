@@ -7,11 +7,15 @@ const UploadSection = ({ onMainModelUpload, onAnimationUpload }) => {
       <li className="collection-header grey darken-3 white-text">
         <h5>Upload File with Character </h5>
         <p>(.fbx / .gltf /.glb)</p>
-        <UploadButton onUpload={onMainModelUpload} />
+        <UploadButton onUpload={onMainModelUpload} accept=".fbx,.gltf,.glb" />
       </li>
       <li className="collection-header grey darken-3 white-text">
         <h5>Upload Animations (.fbx)</h5>
-        <UploadButton onUpload={onAnimationUpload} multiple={true} />
+        <UploadButton
+          onUpload={onAnimationUpload}
+          multiple={true}
+          accept=".fbx"
+        />
       </li>
     </ul>
   );

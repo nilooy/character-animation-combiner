@@ -1,6 +1,6 @@
 import { FBXLoader } from "three/examples/jsm/loaders/FBXLoader.js";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { Box3, Vector3 } from "three";
+import { Box3, Mesh, Vector3 } from "three";
 
 export default (path, type, callback) => {
   let loader = null;
@@ -15,6 +15,11 @@ export default (path, type, callback) => {
           child.castShadow = true;
           child.receiveShadow = true;
         }
+        // if (child instanceof Mesh) {
+        //   // apply texture
+        //   child.material.map = undefined;
+        //   child.material.needsUpdate = true;
+        // }
       });
 
       var box = new Box3().setFromObject(object);

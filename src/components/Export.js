@@ -11,13 +11,11 @@ const Export = () => {
   const save = (blob, filename) => {
     var link = document.createElement("a");
     link.style.display = "none";
-    document.body.appendChild(link); // Firefox workaround, see #6594
+    document.body.appendChild(link);
     link.href = URL.createObjectURL(blob);
     link.download = filename;
     link.click();
     toggleLoading();
-
-    // URL.revokeObjectURL( url ); breaks Firefox...
   };
 
   const saveString = (text, filename) => {
@@ -30,31 +28,45 @@ const Export = () => {
 
   const exportGLB = () => {
     toggleLoading();
-    var exporter = new GLTFExporter();
+    try {
+      var exporter = new GLTFExporter();
 
-    // Parse the input and generate the glTF output
-    exporter.parse(
-      mainModel,
-      function (result) {
-        saveArrayBuffer(result, `mixamo-${new Date().getTime()}.glb`);
-      },
-      { trs: true, binary: true, animations: animations }
-    );
+      // Parse the input and generate the glTF output
+      exporter.parse(
+        mainModel,
+        function (result) {
+          saveArrayBuffer(result, `mixamo-${new Date().getTime()}.glb`);
+        },
+        { trs: true, binary: true, animations: animations }
+      );
+    } catch (error) {
+      toggleLoading();
+      alert(
+        "Error: Try deleting the texture, if that does not help, Open an issue on the Github Repo"
+      );
+    }
   };
 
   const exportGLTF = () => {
-    toggleLoading();
-    var exporter = new GLTFExporter();
+    try {
+      toggleLoading();
+      var exporter = new GLTFExporter();
 
-    // Parse the input and generate the glTF output
-    exporter.parse(
-      mainModel,
-      function (result) {
-        var output = JSON.stringify(result, null, 2);
-        saveString(output, `mixamo-${new Date().getTime()}.gltf`);
-      },
-      { trs: true, binary: false, animations: animations }
-    );
+      // Parse the input and generate the glTF output
+      exporter.parse(
+        mainModel,
+        function (result) {
+          var output = JSON.stringify(result, null, 2);
+          saveString(output, `mixamo-${new Date().getTime()}.gltf`);
+        },
+        { trs: true, binary: false, animations: animations }
+      );
+    } catch (error) {
+      toggleLoading();
+      alert(
+        "Error: Try deleting the texture, if that does not help, Open an issue on the Github Repo"
+      );
+    }
   };
 
   return (
