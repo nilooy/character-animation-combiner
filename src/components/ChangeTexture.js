@@ -12,9 +12,10 @@ const ChangeTexture = () => {
   } = useContext(ModalContext);
 
   useEffect(() => {
+    console.log(mainModel);
     if (mainModel) {
       mainModel.traverse((child) => {
-        if (child.isMesh) {
+        if (child.isMesh && typeof child.material.map !== "function") {
           setTexture(child.material.map);
           setDefaultTexture(child.material.map);
         }
@@ -25,7 +26,7 @@ const ChangeTexture = () => {
   useEffect(() => {
     if (texture !== null) {
       mainModel.traverse((child) => {
-        if (child.isMesh) {
+        if (child.isMesh && typeof child.material.map !== "function") {
           child.material.map = texture;
           child.material.needsUpdate = true;
         }
