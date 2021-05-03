@@ -12,7 +12,6 @@ const ChangeTexture = () => {
   } = useContext(ModalContext);
 
   useEffect(() => {
-    console.log(mainModel);
     if (mainModel) {
       mainModel.traverse((child) => {
         if (child.isMesh && typeof child.material.map !== "function") {

@@ -35,7 +35,7 @@ const Export = () => {
       exporter.parse(
         mainModel,
         function (result) {
-          saveArrayBuffer(result, `mixamo-${new Date().getTime()}.glb`);
+          saveArrayBuffer(result, `cac-${new Date().getTime()}.glb`);
         },
         { trs: true, binary: true, animations: animations }
       );
@@ -57,7 +57,7 @@ const Export = () => {
         mainModel,
         function (result) {
           var output = JSON.stringify(result, null, 2);
-          saveString(output, `mixamo-${new Date().getTime()}.gltf`);
+          saveString(output, `cac-${new Date().getTime()}.gltf`);
         },
         { trs: true, binary: false, animations: animations }
       );

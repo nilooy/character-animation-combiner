@@ -8,14 +8,14 @@ const Layout = ({ children }) => {
       <nav className="black">
         <div className="nav-wrapper ">
           <div className="brand-logo center">
-            Mixamo Character Animation Combiner
+            Character Animation Combiner
           </div>
           <ul className="right">
             <li>
               <a
                 rel="noopener noreferrer"
                 style={{ padding: 10 }}
-                href="https://github.com/nilooy/mixamo-animation-combiner"
+                href="https://github.com/nilooy/character-animation-combiner"
                 target="_blank"
               >
                 <img src={GithubImage} alt="github logo" width="40" />

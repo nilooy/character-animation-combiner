@@ -1,5 +1,5 @@
 {
-  "name": "react-mixamo",
+  "name": "character-animation-combiner",
   "version": "0.1.0",
   "private": true,
   "author": {
@@ -18,7 +18,7 @@
     "react-scripts": "3.4.3",
     "three": "^0.120.0"
   },
-  "homepage": "mixamo-animation-combiner",
+  "homepage": "character-animation-combiner",
   "scripts": {
     "predeploy": "yarn run build",
     "deploy": "gh-pages -d build",
