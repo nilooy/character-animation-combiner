@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/character-animation-combiner/static/css/main.30c9419f.chunk.css",
+    "main.js": "/character-animation-combiner/static/js/main.b2b5f8a3.chunk.js",
+    "main.js.map": "/character-animation-combiner/static/js/main.b2b5f8a3.chunk.js.map",
+    "runtime-main.js": "/character-animation-combiner/static/js/runtime-main.7be2f949.js",
+    "runtime-main.js.map": "/character-animation-combiner/static/js/runtime-main.7be2f949.js.map",
+    "static/css/2.9dff4bae.chunk.css": "/character-animation-combiner/static/css/2.9dff4bae.chunk.css",
+    "static/js/2.2632eecc.chunk.js": "/character-animation-combiner/static/js/2.2632eecc.chunk.js",
+    "static/js/2.2632eecc.chunk.js.map": "/character-animation-combiner/static/js/2.2632eecc.chunk.js.map",
+    "index.html": "/character-animation-combiner/index.html",
+    "precache-manifest.31b38421e84720dd3ac1a21566faaaaf.js": "/character-animation-combiner/precache-manifest.31b38421e84720dd3ac1a21566faaaaf.js",
+    "service-worker.js": "/character-animation-combiner/service-worker.js",
+    "static/css/2.9dff4bae.chunk.css.map": "/character-animation-combiner/static/css/2.9dff4bae.chunk.css.map",
+    "static/css/main.30c9419f.chunk.css.map": "/character-animation-combiner/static/css/main.30c9419f.chunk.css.map",
+    "static/js/2.2632eecc.chunk.js.LICENSE.txt": "/character-animation-combiner/static/js/2.2632eecc.chunk.js.LICENSE.txt",
+    "static/media/default.glb": "/character-animation-combiner/static/media/default.d39ce2af.glb"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7be2f949.js",
+    "static/css/2.9dff4bae.chunk.css",
+    "static/js/2.2632eecc.chunk.js",
+    "static/css/main.30c9419f.chunk.css",
+    "static/js/main.b2b5f8a3.chunk.js"
+  ]
+}
