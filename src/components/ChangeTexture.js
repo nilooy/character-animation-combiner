@@ -31,7 +31,7 @@ const ChangeTexture = () => {
         }
       });
     }
-  }, [texture]);
+  }, [texture, mainModel]);
 
   const onTextureUpload = (event) => {
     if (event.target.files[0]) {
