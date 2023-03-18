@@ -1,5 +1,7 @@
 # ⛹⛹⛹ Character Animation Combiner ⛹⛹⛹
 
+[This repo is not being maintained anymore]
+
 ## [LIVE HERE 💎](https://nilooy.github.io/character-animation-combiner)
 
 ## Run Locally
