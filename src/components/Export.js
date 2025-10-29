@@ -26,26 +26,64 @@ const Export = () => {
     save(new Blob([buffer], { type: "application/octet-stream" }), filename);
   };
 
-  const exportGLB = () => {
-    toggleLoading();
-    try {
-      var exporter = new GLTFExporter();
+const exportGLB = () => {
+  toggleLoading();
 
-      // Parse the input and generate the glTF output
-      exporter.parse(
-        mainModel,
-        function (result) {
-          saveArrayBuffer(result, `cac-${new Date().getTime()}.glb`);
-        },
-        { trs: true, binary: true, animations: animations }
-      );
-    } catch (error) {
-      toggleLoading();
-      alert(
-        "Error: Try deleting the texture, if that does not help, Open an issue on the Github Repo"
-      );
-    }
-  };
+  if (mainModel) {
+    mainModel.traverse((child) => {
+      if (child.isMesh && child.material) {
+        // Normalize: ensure we always handle an array of materials
+        const materials = Array.isArray(child.material)
+          ? child.material
+          : [child.material];
+
+        materials.forEach((mat) => {
+          // --- Main texture validation ---
+          if (mat.map) {
+            const img = mat.map.image;
+
+            // Remove broken or missing textures to prevent GLTFExporter errors
+            if (!img || !img.width || !img.height) {
+              console.warn("🧹 Removing invalid texture:", img);
+              mat.map.dispose();
+              mat.map = null;
+              mat.needsUpdate = true;
+            }
+          }
+
+          // --- Optional cleanup of additional maps ---
+          // This prevents similar crashes caused by invalid maps.
+          const extraMaps = ["normalMap", "roughnessMap", "metalnessMap"];
+          extraMaps.forEach((prop) => {
+            const map = mat[prop];
+            if (map && (!map.image || !map.image.width)) {
+              console.warn(`🧹 Removing invalid ${prop}:`, map);
+              map.dispose();
+              mat[prop] = null;
+              mat.needsUpdate = true;
+            }
+          });
+        });
+      }
+    });
+  }
+
+  try {
+    const exporter = new GLTFExporter();
+
+    exporter.parse(
+      mainModel,
+      function (result) {
+        saveArrayBuffer(result, `cac-${new Date().getTime()}.glb`);
+      },
+      { trs: true, binary: true, animations: animations }
+    );
+  } catch (error) {
+    toggleLoading();
+    alert("Erro durante exportação: " + error.message);
+    console.error(error);
+  }
+};
 
   const exportGLTF = () => {
     try {
