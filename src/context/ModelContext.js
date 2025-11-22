@@ -14,6 +14,18 @@ const modelReducer = (state, action) => {
     case "add_animations_from_main":
       return { ...state, animations: [...action.payload] };
     case "add_animations":
+      // Also push animations to mainModel.animations so GLTFExporter can find them
+      if (state.mainModel) {
+        if (!state.mainModel.animations) {
+          state.mainModel.animations = [];
+        }
+        action.payload.forEach((anim) => {
+          // Only add if not already present (check by UUID)
+          if (!state.mainModel.animations.some(existing => existing.uuid === anim.uuid)) {
+            state.mainModel.animations.push(anim);
+          }
+        });
+      }
       return { ...state, animations: [...state.animations, ...action.payload] };
     case "change_animation_name":
       return {
@@ -25,6 +37,12 @@ const modelReducer = (state, action) => {
     case "add_mixer":
       return { ...state, mixer: action.payload };
     case "delete_animation":
+      // Also remove animation from mainModel.animations
+      if (state.mainModel && state.mainModel.animations) {
+        state.mainModel.animations = state.mainModel.animations.filter(
+          (animation) => animation.uuid !== action.payload
+        );
+      }
       return {
         ...state,
         animations: state.animations.filter(
